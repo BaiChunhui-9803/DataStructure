@@ -4,6 +4,7 @@
 #include"Node.h"
 #include"SList.h"
 #include"Stack.h"
+#include"Queue.h"
 
 int main() {
 
@@ -11,20 +12,33 @@ int main() {
 
 	//SLIST
 	{
-		SList<int> list();
-		SList<int> list1(10);
+		SList<int> list1();
+		SList<int> list2(10);
 
 
 
 
 	}
 
-
-
-
-
-
-
+	//Queue
+	{
+		Queue<int> queue1(10);
+		Queue<int> queue2(10);
+		std::cout << queue1 << std::endl;
+		std::cout << queue2 << std::endl;
+		queue1.pop();
+		queue1.push(100);
+		std::cout << queue1 << std::endl;
+		queue1.isEmpty();
+		queue1.find(100);
+		queue1.size();
+		queue1.link(queue2);
+		std::cout << queue1 << std::endl;
+		queue1.clear();
+		queue1.isEmpty();
+		std::cout << queue1 << std::endl;
+	}
+	
 
 
 

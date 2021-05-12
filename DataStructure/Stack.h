@@ -2,7 +2,9 @@
 #define STACK_H
 
 #include<iostream>
+#include<vector>
 #include"Node.h"
+
 
 template <typename T> std::ostream& operator<<(std::ostream&, const Stack<T>&);
 template <typename T>
@@ -28,7 +30,7 @@ public:
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Stack<T>& stack) {
 	Node<T>* p = stack.m_top;
-	vector<Node<T>> vec;
+	std::vector<Node<T>> vec;
 	os << "[";
 	if (p == nullptr) {
 

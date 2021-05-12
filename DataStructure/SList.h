@@ -86,16 +86,6 @@ void SList<T>::push_back(const T& val) {
 }
 
 template<typename T>
-void SList<T>::clear() {
-	Node<T>* p = nullptr;
-	while (m_head != nullptr) {
-		p = m_head;
-		m_head = m_head->m_next;
-		delete p;
-	}
-	m_tail = nullptr;
-}
-template<typename T>
 Node<T>* SList<T>::insert(Node<T>* pos, const T& val) {
 
 	Node<T>* node = new Node<T>(val);

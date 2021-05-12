@@ -145,6 +145,7 @@
     <ClInclude Include="BiNode.h" />
     <ClInclude Include="BinaryTree.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="SList.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
