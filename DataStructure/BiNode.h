@@ -1,10 +1,10 @@
 #ifndef BINODE_H
 #define BINODE_H
 
-template <typename T> class BiTree;
+template <typename T> class BinaryTree;
 template <typename T>
 class BiNode {
-	friend class BiTree<T>;
+	friend class BinaryTree<T>;
 private:
 	T m_data;
 	BiNode* m_left = nullptr, * m_right = nullptr;

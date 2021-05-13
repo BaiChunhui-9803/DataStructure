@@ -5,6 +5,7 @@
 #include"SList.h"
 #include"Stack.h"
 #include"Queue.h"
+#include"BinaryTree.h"
 
 int main() {
 
@@ -39,7 +40,18 @@ int main() {
 		std::cout << queue1 << std::endl;
 	}
 	
-
+	//BinaryTree
+	{
+		BinaryTree<int> binarytree;
+		for (int i = 0; i < 10; i++) {
+			binarytree.insert(rand() % 100);
+		}
+		binarytree.inOrder(binarytree.root(), visit);
+		std::cout << std::endl;
+		BinaryTree<int> binarytree1(5);
+		binarytree1.inOrder(binarytree1.root(), visit);
+		std::cout << std::endl;
+	}
 
 
 	return 0;

@@ -4,13 +4,12 @@
 #include<iostream>
 #include"BiNode.h"
 
-template<typename T>
-std::ostream& operator<< (std::ostream& cout, const BinaryTree<T>& value);
 
 template<typename T>
 class BinaryTree {
 public:
 	BinaryTree() = default;
+	BinaryTree(const int n_layer);
 	BinaryTree(const BinaryTree& value) = delete;
 	BinaryTree& operator=(const BinaryTree& value) = delete;
 	~BinaryTree() { destroy(m_root); }
@@ -20,17 +19,10 @@ public:
 	BiNode<T>* insert(const T& value) { return insert_(m_root, value); }
 	BiNode<T>* search(const T& value)const;
 
-	template<typename FUN>
-	void preOrder(FUN& fun, BiNode<T>* p) const;
-	template<typename FUN>
-	void inOrder(FUN& fun, BiNode<T>* p);
+	void preOrder(BiNode<T>* p, void(*visit)(T&));
 	void inOrder(BiNode<T>* p, void(*visit)(T&));
-
-	template<typename FUN>
-	void postOrder(FUN& fun, BiNode<T>* p) const;
+	void postOrder(BiNode<T>* p, void(*visit)(T&));
 	void destroy(BiNode<T>* p);
-	friend std::ostream& operator<< <T> (std::ostream& cout, const BinaryTree<T>& value);
-
 
 	void remove(BiNode<T>* p);
 	BiNode<T>* parent(BiNode<T>* node) const;
@@ -49,6 +41,16 @@ private:
 };
 
 template<typename T>
+BinaryTree<T>::BinaryTree(const int n_layer)
+{
+	for (int i = 0; i < n_layer; i++) {
+		for (int j = 0; j < pow(2, i); j++) {
+			insert(T(pow(2, n_layer - i) * j + pow(2, n_layer - i - 1)));
+		}
+	}
+}
+
+template<typename T>
 inline BiNode<T>* BinaryTree<T>::search(const T& value)const {
 	return search_(m_root, value);
 }
@@ -61,26 +63,16 @@ BiNode<T>* BinaryTree<T>::parent(BiNode<T>* node) const {
 }
 
 template<typename T>
-template<typename FUN>
-void BinaryTree<T>::preOrder(FUN& fun, BiNode<T>* p) const {
+void BinaryTree<T>::preOrder(BiNode<T>* p, void(*visit)(T&)) {
 	if (p != nullptr)
 	{
-		fun(*p);
-		preOrder(fun, p->m_left);
-		preOrder(fun, p->m_right);
+		visit(p->m_data);
+		preOrder(p->m_left, visit);
+		preOrder(p->m_right, visit);
 	}
 }
 
-template<typename T>
-template<typename FUN>
-void BinaryTree<T>::inOrder(FUN& visit, BiNode<T>* p) {
-	if (p != nullptr)
-	{
-		inOrder(visit, p->m_left);
-		visit(*p);
-		inOrder(visit, p->m_right);
-	}
-}
+
 template<typename T>
 void BinaryTree<T>::inOrder(BiNode<T>* p, void(*visit)(T&)) {
 	if (p != nullptr)
@@ -92,13 +84,12 @@ void BinaryTree<T>::inOrder(BiNode<T>* p, void(*visit)(T&)) {
 }
 
 template<typename T>
-template<typename FUN>
-void BinaryTree<T>::postOrder(FUN& fun, BiNode<T>* p) const {
+void BinaryTree<T>::postOrder(BiNode<T>* p, void(*visit)(T&)) {
 	if (p != nullptr)
 	{
-		postOrder(fun, p->m_left);
-		postOrder(fun, p->m_right);
-		fun(*p);
+		postOrder(p->m_left, visit);
+		postOrder(p->m_right, visit);
+		visit(p->m_data);
 	}
 }
 
@@ -113,34 +104,11 @@ void BinaryTree<T>::destroy(BiNode<T>* p) {
 }
 
 template<typename T>
-std::ostream& operator<< (std::ostream& os, const BinaryTree<T>& value) {
-	os << " 层次遍历二叉树：";
-	vector<Node<T>*> que;
-	Node<T>* p = value.m_root;
-	while (p != nullptr)
-	{
-		os << p->data() << " ";
-		if (p->left() != nullptr)
-			que.push_back(p->left());
-		if (p->right() != nullptr)
-			que.push_back(p->right());
-		if (!que.empty())
-		{
-			p = que.front();
-			que.erase(que.begin());
-		}
-		else
-			p = nullptr;
-	}
-	return os;
-}
-
-template<typename T>
 void BinaryTree<T>::remove(BiNode<T>* p) {
 	if (p == nullptr)//二分查找返回空，表示无此元素
-		cout << " 无此元素" << endl;
+		std::cout << " 无此元素" << std::endl;
 	else {
-		cout << " 删除元素" << p->m_data << endl;
+		std::cout << " 删除元素" << p->m_data << std::endl;
 		if (p->m_left == nullptr && p->m_right == nullptr)//删除叶子节点
 		{
 			auto p_parent = parent(p);
@@ -203,7 +171,7 @@ BiNode<T>* BinaryTree<T>::search_(BiNode<T>* p, const T& value)const {
 template<typename T>
 BiNode<T>* BinaryTree<T>::insert_(BiNode<T>*& p, const T& value) {
 	if (p == nullptr) {
-		return p = new (std::nothrow) Node<T>(value);
+		return p = new (std::nothrow) BiNode<T>(value);
 	}
 	else if (value < p->m_data)
 		return insert_(p->m_left, value);
@@ -237,6 +205,10 @@ BiNode<T>* BinaryTree<T>::minChild(BiNode<T>* p) const {
 	return nullptr;
 }
 
+template<typename T>
+void visit(T &value) {
+	std::cout << value << " ";
+}
 
 
 #endif // !1
