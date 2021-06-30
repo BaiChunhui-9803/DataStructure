@@ -1,11 +1,12 @@
 #include <cstdlib>
 #include <ctime>
-#include"BiNode.h"
-#include"Node.h"
-#include"SList.h"
-#include"Stack.h"
-#include"Queue.h"
-#include"BinaryTree.h"
+#include "BiNode.h"
+#include "Node.h"
+#include "SList.h"
+#include "Stack.h"
+#include "Queue.h"
+#include "BinaryTree.h"
+#include "Matrix.h"
 
 int main() {
 
@@ -39,7 +40,7 @@ int main() {
 		queue1.isEmpty();
 		std::cout << queue1 << std::endl;
 	}
-	
+
 	//BinaryTree
 	{
 		BinaryTree<int> binarytree;
@@ -52,6 +53,8 @@ int main() {
 		binarytree1.inOrder(binarytree1.root(), visit);
 		std::cout << std::endl;
 	}
+
+	//Matrix
 
 
 	return 0;
